@@ -31,8 +31,22 @@ public class Main {
                 "* Dodaj Klienta [dkl]\n" +
                 "* Pokaz Klientow [pkl]\n" +
                 "* Edytuj Klienta [ekl]\n" +
-                "* Usun Klienta [ukl]\n");
-
+                "* Usun Klienta [ukl]\n" +
+                "*******KOMENDY********\n" +
+                "* Powiaz Ksiazke z Autorem [pka]\n" +
+                "* Wypozycz ksiazke [wk]\n" +
+                "* Znajdz Autorow po nazwisku [za]\n" +
+                "* Znajdz Klientow po nazwisku [zk]\n" +
+                "* Znajdz Klienta po id [zki]\n" +
+                "* Listuj ksiazki wypozyczone przez klienta [lwk]\n" +
+                "* Listuj ksiazki nie zwrocone przez klienta [lnk]\n" +
+                "* Listuj dostepne ksiazki [ld]\n" +
+                "* Listuj nie dostepne ksiazeki [lnd]\n" +
+                "* Listuj ksiazki nie zwrocone [lnz]\n" +
+                "* Listuj ksiazki zwrocone w ciagu ostanin N godzin [lzh]\n" +
+                "* Listuj ksiazki wypozyczone w ciagu ostatnich 24 h [lwh]\n" +
+                "* Listuj najczesciej wypozyczane ksiazki [lnw]\n" +
+                "* Znajdz najbardziej aktywnego klienta [zna]\n");
 
         String line;
         do {
@@ -74,6 +88,35 @@ public class Main {
 
             } else if (line.equalsIgnoreCase("ukl")) {
                 dao.delete(Client.class, scanner.nextLong());
+
+            } else if (line.equalsIgnoreCase("pka")) {
+
+            } else if (line.equalsIgnoreCase("wk")) {
+
+            } else if (line.equalsIgnoreCase("za")) {
+
+            } else if (line.equalsIgnoreCase("zk")) {
+
+            } else if (line.equalsIgnoreCase("zki")) {
+
+            } else if (line.equalsIgnoreCase("lwk")) {
+
+            } else if (line.equalsIgnoreCase("lnk")) {
+
+            } else if (line.equalsIgnoreCase("ld")) {
+
+            } else if (line.equalsIgnoreCase("lnd")) {
+
+            } else if (line.equalsIgnoreCase("lnz")) {
+
+            } else if (line.equalsIgnoreCase("lzh")) {
+
+            } else if (line.equalsIgnoreCase("lwh")) {
+
+            } else if (line.equalsIgnoreCase("lnw")) {
+
+            } else if (line.equalsIgnoreCase("zna")) {
+
             }
         } while (!line.equalsIgnoreCase("quit"));
     }
