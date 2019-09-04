@@ -17,19 +17,19 @@ public class Main {
 
         System.out.println("*******Autor*******\n" +
                 "* Dodaj Autora [da]\n" +
-                "* Pokaz Autora [pa]\n" +
+                "* Pokaz Autorow [pa]\n" +
                 "* Edytuj Autora [ea]\n" +
                 "* Usun Autora [ua]\n" +
                 "\n" +
                 "*******Ksiazka*******\n" +
                 "* Dodaj Ksiazke [dks]\n" +
-                "* Pokaz Ksiazke [pks]\n" +
+                "* Pokaz Ksiazki [pks]\n" +
                 "* Edytuj Ksiazke [eks]\n" +
                 "* Usun Ksiazke [uks]\n" +
                 " \n" +
                 "*******Klient*******\n" +
                 "* Dodaj Klienta [dkl]\n" +
-                "* Pokaz Klienta [pkl]\n" +
+                "* Pokaz Klientow [pkl]\n" +
                 "* Edytuj Klienta [ekl]\n" +
                 "* Usun Klienta [ukl]\n");
 
@@ -43,7 +43,7 @@ public class Main {
                 addAuthor(dao);
 
             } else if (line.equalsIgnoreCase("pa")) {
-                showAutor(dao);
+                dao.getAll(Author.class).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("ea")) {
                 updateAuthor(dao);
@@ -55,7 +55,7 @@ public class Main {
                 addBook(dao);
 
             } else if (line.equalsIgnoreCase("pks")) {
-                showBook(dao);
+                dao.getAll(Book.class).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("eks")) {
                 updateBook(dao);
@@ -67,7 +67,7 @@ public class Main {
                 addClient(dao);
 
             } else if (line.equalsIgnoreCase("pkl")) {
-                showClient(dao);
+                dao.getAll(Client.class).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("ekl")) {
                 updateClient(dao);
