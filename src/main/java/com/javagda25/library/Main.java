@@ -119,21 +119,6 @@ public class Main {
         dao.saveOrUpdate(client);
     }
 
-    private static void showAutor(EntityDao dao) {
-        System.out.println("Id autora:");
-        System.out.println(dao.getById(Author.class, scanner.nextLong()));
-    }
-
-    private static void showBook(EntityDao dao) {
-        System.out.println("Id ksiazki:");
-        System.out.println(dao.getById(Book.class, scanner.nextLong()));
-    }
-
-    private static void showClient(EntityDao dao) {
-        System.out.println("Id klienta:");
-        System.out.println(dao.getById(Client.class, scanner.nextLong()));
-    }
-
     private static void updateAuthor(EntityDao dao) {
         System.out.println("Id autora:");
 
