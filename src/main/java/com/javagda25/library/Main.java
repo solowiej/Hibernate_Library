@@ -8,6 +8,7 @@ import com.javagda25.library.model.Client;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -48,12 +49,12 @@ public class Main {
                 "* Get Clients by idNumber [gci]\n" +
                 "* List of Books lended by Client [lbc]\n" +
                 "* List of Client's unreturned Books [lub]\n" +
-                "* List of Available Books [lav]\n" +
-                "* List of Unavailable Books [luv]\n" +
-                "* List of UnreturnedBooks [lur]\n" +
-                "* List of returned books within N hours [lnh]\n" +
-                "* Listuj ksiazki wypozyczone w ciagu ostatnich 24 h [lwh]\n" +
-                "* Listuj najczesciej wypozyczane ksiazki [lnw]\n" +
+                "* List of available Books [lav]\n" +
+                "* List of unavailable Books [luv]\n" +
+                "* List of unreturned Books [lur]\n" +
+                "* List of Books returned within N hours [lnh]\n" +
+                "* List of Books lended within the last 24 hours [lnd]\n" +
+                "* List of the most borrowed books [lmb]\n" +
                 "* Znajdz najbardziej aktywnego klienta [zna]\n");
 
         String line;
@@ -151,12 +152,35 @@ public class Main {
                         .forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lnh")) {
+                System.out.println("Enter the number of hours:");
+                LocalDateTime hours = LocalDateTime.now().minusHours(scanner.nextLong());
 
-            } else if (line.equalsIgnoreCase("lwh")) {
+                bookLendDao.getListOfBooksReturnedWithinNHours(hours)
+                        .stream()
+                        .map(BookLent::getBook)
+                        .forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("lnw")) {
+            } else if (line.equalsIgnoreCase("lnd")) {
+                bookLendDao.getListOfBooksLendedWithinTheLastDay()
+                        .stream()
+                        .map(BookLent::getBook)
+                        .forEach(System.out::println);
+
+            } else if (line.equalsIgnoreCase("lmb")) {
+//                      mapa <Book_id, count(book_id)>
+
+//                Optional<Long> optionalBookLent = Optional.of(dao.getAll(BookLent.class)
+//                        .stream()
+//                        .map(bookLent -> bookLent.getBook().getId())
+//                        .count());
+//
+//                System.out.println(optionalBookLent);
+
+
+
 
             } else if (line.equalsIgnoreCase("zna")) {
+
 
             }
         } while (!line.equalsIgnoreCase("quit"));
