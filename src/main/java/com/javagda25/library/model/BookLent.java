@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 
 @NoArgsConstructor
@@ -21,9 +21,9 @@ public class BookLent implements IBaseEntity {
     private Long id;
 
     @CreationTimestamp
-    private LocalDate dateLent;
+    private LocalDateTime dateLent;
 
-    private LocalDate dateReturned;
+    private LocalDateTime dateReturned;
 
     @ManyToOne
     private Client client;

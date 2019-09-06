@@ -1,11 +1,13 @@
 package com.javagda25.library;
 
-import com.javagda25.library.dao.EntityDao;
+import com.javagda25.library.dao.*;
 import com.javagda25.library.model.Author;
 import com.javagda25.library.model.Book;
+import com.javagda25.library.model.BookLent;
 import com.javagda25.library.model.Client;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -14,36 +16,42 @@ public class Main {
 
     public static void main(String[] args) {
         EntityDao dao = new EntityDao();
+        AuthorDao authorDao = new AuthorDao();
+        ClientDao clientDao = new ClientDao();
+        BookLendDao bookLendDao = new BookLendDao();
+        BookDao bookDao = new BookDao();
 
-        System.out.println("*******Autor*******\n" +
-                "* Dodaj Autora [da]\n" +
-                "* Pokaz Autorow [pa]\n" +
-                "* Edytuj Autora [ea]\n" +
-                "* Usun Autora [ua]\n" +
+        System.out.println("*******Author*******\n" +
+                "* Add Author [aa]\n" +
+                "* List Authors [la]\n" +
+                "* Edit Author [ea]\n" +
+                "* Delete Author [da]\n" +
                 "\n" +
-                "*******Ksiazka*******\n" +
-                "* Dodaj Ksiazke [dks]\n" +
-                "* Pokaz Ksiazki [pks]\n" +
-                "* Edytuj Ksiazke [eks]\n" +
-                "* Usun Ksiazke [uks]\n" +
+                "*******Book*******\n" +
+                "* Add Book [ab]\n" +
+                "* List Books [lb]\n" +
+                "* Edit Book [eb]\n" +
+                "* Delete Book [db]\n" +
                 " \n" +
-                "*******Klient*******\n" +
-                "* Dodaj Klienta [dkl]\n" +
-                "* Pokaz Klientow [pkl]\n" +
-                "* Edytuj Klienta [ekl]\n" +
-                "* Usun Klienta [ukl]\n" +
-                "*******KOMENDY********\n" +
-                "* Powiaz Ksiazke z Autorem [pka]\n" +
-                "* Wypozycz ksiazke [wk]\n" +
-                "* Znajdz Autorow po nazwisku [za]\n" +
-                "* Znajdz Klientow po nazwisku [zk]\n" +
-                "* Znajdz Klienta po id [zki]\n" +
-                "* Listuj ksiazki wypozyczone przez klienta [lwk]\n" +
-                "* Listuj ksiazki nie zwrocone przez klienta [lnk]\n" +
-                "* Listuj dostepne ksiazki [ld]\n" +
-                "* Listuj nie dostepne ksiazeki [lnd]\n" +
-                "* Listuj ksiazki nie zwrocone [lnz]\n" +
-                "* Listuj ksiazki zwrocone w ciagu ostanin N godzin [lzh]\n" +
+                "*******Client*******\n" +
+                "* Add Client [ac]\n" +
+                "* List Clients [lc]\n" +
+                "* Edit Client [ec]\n" +
+                "* Delete Client [dc]\n" +
+                "\n" +
+                "*******COMMAND********\n" +
+                "* Bind Author with Book [bab]\n" +
+                "* Lend Book [lnb]\n" +
+                "* Return Book [rb]\n" +
+                "* List Authors by Surname [las]\n" +
+                "* List Clients by Name [lcn]\n" +
+                "* Get Clients by idNumber [gci]\n" +
+                "* List of Books lended by Client [lbc]\n" +
+                "* List of Client's unreturned Books [lub]\n" +
+                "* List of Available Books [lav]\n" +
+                "* List of Unavailable Books [luv]\n" +
+                "* List of UnreturnedBooks [lur]\n" +
+                "* List of returned books within N hours [lnh]\n" +
                 "* Listuj ksiazki wypozyczone w ciagu ostatnich 24 h [lwh]\n" +
                 "* Listuj najczesciej wypozyczane ksiazki [lnw]\n" +
                 "* Znajdz najbardziej aktywnego klienta [zna]\n");
@@ -53,63 +61,96 @@ public class Main {
 
             line = scanner.nextLine();
 
-            if (line.equalsIgnoreCase("da")) {
+            if (line.equalsIgnoreCase("aa")) {
                 addAuthor(dao);
 
-            } else if (line.equalsIgnoreCase("pa")) {
+            } else if (line.equalsIgnoreCase("la")) {
                 dao.getAll(Author.class).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("ea")) {
                 updateAuthor(dao);
 
-            } else if (line.equalsIgnoreCase("ua")) {
+            } else if (line.equalsIgnoreCase("da")) {
                 dao.delete(Author.class, scanner.nextLong());
 
-            } else if (line.equalsIgnoreCase("dks")) {
+            } else if (line.equalsIgnoreCase("ab")) {
                 addBook(dao);
 
-            } else if (line.equalsIgnoreCase("pks")) {
+            } else if (line.equalsIgnoreCase("lb")) {
                 dao.getAll(Book.class).forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("eks")) {
+            } else if (line.equalsIgnoreCase("eb")) {
                 updateBook(dao);
 
-            } else if (line.equalsIgnoreCase("uks")) {
+            } else if (line.equalsIgnoreCase("db")) {
                 dao.delete(Book.class, scanner.nextLong());
 
-            } else if (line.equalsIgnoreCase("dkl")) {
+            } else if (line.equalsIgnoreCase("ac")) {
                 addClient(dao);
 
-            } else if (line.equalsIgnoreCase("pkl")) {
+            } else if (line.equalsIgnoreCase("lc")) {
                 dao.getAll(Client.class).forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("ekl")) {
+            } else if (line.equalsIgnoreCase("ec")) {
                 updateClient(dao);
 
-            } else if (line.equalsIgnoreCase("ukl")) {
+            } else if (line.equalsIgnoreCase("dc")) {
                 dao.delete(Client.class, scanner.nextLong());
 
-            } else if (line.equalsIgnoreCase("pka")) {
+            } else if (line.equalsIgnoreCase("bab")) {
+                bindAuthorWithBook(dao);
 
-            } else if (line.equalsIgnoreCase("wk")) {
+            } else if (line.equalsIgnoreCase("lnb")) {
+                lendBook(dao);
 
-            } else if (line.equalsIgnoreCase("za")) {
+            } else if (line.equalsIgnoreCase("rb")) {
+                returnTheBook(dao);
 
-            } else if (line.equalsIgnoreCase("zk")) {
+            } else if (line.equalsIgnoreCase("las")) {
+                System.out.println("Enter Author's Surname:");
+                authorDao.getAuthorListBySurname(scanner.nextLine()).forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("zki")) {
+            } else if (line.equalsIgnoreCase("lcn")) {
+                System.out.println("Enter Client's Name:");
+                clientDao.getClientsByName(scanner.nextLine()).forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("lwk")) {
+            } else if (line.equalsIgnoreCase("gci")) {
+                System.out.println("Enter Client's idNumber:");
+                System.out.println(clientDao.getClientByIdNumber(scanner.nextLine()));
 
-            } else if (line.equalsIgnoreCase("lnk")) {
+            } else if (line.equalsIgnoreCase("lbc")) {
+                System.out.println("Client id:");
+                Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
+                optionalClient.ifPresent(client -> client.getLentsBooks()
+                        .stream()
+                        .map(BookLent::getBook)
+                        .forEach(System.out::print));
 
-            } else if (line.equalsIgnoreCase("ld")) {
+            } else if (line.equalsIgnoreCase("lub")) {
+                System.out.println("Client id:");
+                Long clientId = scanner.nextLong();
 
-            } else if (line.equalsIgnoreCase("lnd")) {
+                Optional<Client> optionalClient = dao.getById(Client.class, clientId);
+                if (optionalClient.isPresent()) {
+                    bookLendDao.getUnreturnedBookLendsByClient(clientId)
+                            .stream()
+                            .map(BookLent::getBook)
+                            .forEach(System.out::println);
+                }
 
-            } else if (line.equalsIgnoreCase("lnz")) {
+            } else if (line.equalsIgnoreCase("lav")) {
+                bookDao.getListofAvailableBooks().forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("lzh")) {
+            } else if (line.equalsIgnoreCase("luv")) {
+                bookDao.getListofUnavailableBooks().forEach(System.out::println);
+
+            } else if (line.equalsIgnoreCase("lur")) {
+                bookLendDao.getUnreturnedBookLents()
+                        .stream()
+                        .map(BookLent::getBook)
+                        .forEach(System.out::println);
+
+            } else if (line.equalsIgnoreCase("lnh")) {
 
             } else if (line.equalsIgnoreCase("lwh")) {
 
@@ -119,6 +160,90 @@ public class Main {
 
             }
         } while (!line.equalsIgnoreCase("quit"));
+    }
+
+    private static void returnTheBook(EntityDao dao) {
+        BookLent bookLent = new BookLent();
+
+        System.out.println("Enter Client id:");
+        Long clientId = scanner.nextLong();
+        Optional<Client> optionalClient = dao.getById(Client.class, clientId);
+
+        if (optionalClient.isPresent()) {
+            System.out.println("Borowed Books:");
+            optionalClient.get().getLentsBooks().forEach(System.out::println);
+            System.out.println("Book id:");
+            Long bookLendId = scanner.nextLong();
+
+            Optional<BookLent> optionalBookLent = dao.getById(BookLent.class, bookLendId);
+            if (optionalBookLent.isPresent()) {
+                bookLent.setId(bookLendId);
+                bookLent.setDateLent(optionalBookLent.get().getDateLent());
+                bookLent.setDateReturned(LocalDateTime.now());
+                bookLent.setBook(optionalBookLent.get().getBook());
+                bookLent.setClient(optionalBookLent.get().getClient());
+
+                dao.saveOrUpdate(bookLent);
+            } else {
+                System.err.println("There is no such Book with id = " + bookLendId + " in Database.");
+            }
+        } else {
+            System.err.println("There is no such Client with id = " + clientId + " in Database.");
+        }
+    }
+
+    private static void lendBook(EntityDao dao) {
+        BookLent bookLent = new BookLent();
+
+        System.out.println("Client id:");
+        Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
+        System.out.println("Book id:");
+        Optional<Book> optionalBook = dao.getById(Book.class, scanner.nextLong());
+
+        if (optionalClient.isPresent() && optionalBook.isPresent()) {
+
+            if (optionalBook.get().getNumberOfAvaibleCopies() > optionalBook.get().getNumberOfBorrowedCopies()) {
+                Client client = optionalClient.get();
+                Book book = optionalBook.get();
+                bookLent.setDateLent(LocalDateTime.now());
+                bookLent.setBook(book);
+                bookLent.setClient(client);
+                dao.saveOrUpdate(bookLent);
+
+            } else {
+                System.err.println("All books are temporarily on loan.");
+            }
+        } else {
+            System.err.println("There is no such element in Database.");
+        }
+    }
+
+    private static void bindAuthorWithBook(EntityDao dao) {
+        System.out.println("Book id:");
+        Long bookId = scanner.nextLong();
+        Optional<Book> optionalBook = dao.getById(Book.class, bookId);
+
+        if (optionalBook.isPresent()) {
+            System.out.println("Author id:");
+            Long authorId = scanner.nextLong();
+
+            Optional<Author> optionalAuthor = dao.getById(Author.class, authorId);
+
+            if (optionalAuthor.isPresent()) {
+
+                Author author = optionalAuthor.get();
+                Book book = optionalBook.get();
+
+                dao.saveOrUpdate(book);
+                author.getBooks().add(book);
+                dao.saveOrUpdate(author);
+
+            } else {
+                System.err.println("There is no such Author with id = " + authorId + " in Database.");
+            }
+        } else {
+            System.err.println("There is no such Book with id = " + bookId + " in Database.");
+        }
     }
 
     private static void addAuthor(EntityDao dao) {
@@ -260,5 +385,4 @@ public class Main {
             } while (!line.equalsIgnoreCase("q"));
         }
     }
-
 }
