@@ -68,20 +68,36 @@ public class BookLendDao {
         }
     }
 
-//    public List<BookLent> getlistOfTheMostBorrowedBooks() {
-//        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-//            CriteriaBuilder cb = session.getCriteriaBuilder();
-//            CriteriaQuery<BookLent> query = cb.createQuery(BookLent.class);
-//            Root<BookLent> root = query.from(BookLent.class);
+    public List<BookLent> getlistOfTheMostBorrowedBooks() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+
+            CriteriaQuery<BookLent> query = cb.createQuery(BookLent.class);
+            Root<BookLent> root = query.from(BookLent.class);
+
+
+            query.select(root).groupBy(root.get("book_id"));
+
+
+//            query.select(root).where(c);
+
+
+//            query.select(root.get("book"));
+//            query.groupBy(root.get("id"));
+
+
+//            query.groupBy(root.get("book_id"));
+//            query.orderBy((List<Order>) cb.count(root.get("book_id")));
+
+
+//            String hql = "select b.book.id from com.javagda25.library.model.BookLent as b group by b.book.id order by count(b.book.id)";
+//            Query query = session.createQuery(hql);
 //
-//
-//            query.select(root).where(
-//
-//                    cb.count()
-//
-//            );
-//            return session.createQuery(query).getResultList();
-//        }
-//    }
+//            List bookLents = (List) ((org.hibernate.query.Query) query).stream().collect(Collectors.toList());
+
+
+            return session.createQuery(query).getResultList();
+        }
+    }
 
 }

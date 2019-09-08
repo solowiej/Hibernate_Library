@@ -8,7 +8,6 @@ import com.javagda25.library.model.Client;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Comparator;
 import java.util.Optional;
 import java.util.Scanner;
 
@@ -109,7 +108,7 @@ public class Main {
 
             } else if (line.equalsIgnoreCase("las")) {
                 System.out.println("Enter Author's Surname:");
-                authorDao.getAuthorListBySurname(scanner.nextLine()).forEach(System.out::println);
+                authorDao.getAuthorsListBySurname(scanner.nextLine()).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lcn")) {
                 System.out.println("Enter Client's Name:");
@@ -167,16 +166,33 @@ public class Main {
                         .forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lmb")) {
-//                      mapa <Book_id, count(book_id)>
 
-//                Optional<Long> optionalBookLent = Optional.of(dao.getAll(BookLent.class)
+                bookLendDao.getlistOfTheMostBorrowedBooks().forEach(System.out::println);
+
+
+//                         .stream()
+//                         .map(BookLent::getBook)
+//                         .forEach(System.out::println);
+
+
+//                Map<BookLent, Long> bookLentLongMap = dao.getAll(BookLent.class)
 //                        .stream()
-//                        .map(bookLent -> bookLent.getBook().getId())
-//                        .count());
+//                        .collect(Collectors.toMap(
+//                                c -> c,
+//                                c -> dao.getAll(BookLent.class)
+//                                        .stream()
+//                                        .map(bookLent -> bookLent.getBook().getId())
+//                                        .count()))
+//                        .entrySet()
+//                        .stream()
+//                        .sorted(Map.Entry.comparingByValue())
+//                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
 //
-//                System.out.println(optionalBookLent);
-
-
+//                bookLentLongMap.entrySet().forEach(bookLentLongEntry ->
+//                        System.out.println(bookLentLongEntry.getKey().getBook().getId() +
+//                                " " + bookLentLongEntry.getValue()));
+//
+//
 
 
             } else if (line.equalsIgnoreCase("zna")) {

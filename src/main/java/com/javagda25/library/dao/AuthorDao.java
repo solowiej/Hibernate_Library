@@ -10,7 +10,7 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class AuthorDao {
-    public List<Author> getAuthorListBySurname(String surname) {
+    public List<Author> getAuthorsListBySurname(String surname) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
             CriteriaQuery<Author> query = cb.createQuery(Author.class);
