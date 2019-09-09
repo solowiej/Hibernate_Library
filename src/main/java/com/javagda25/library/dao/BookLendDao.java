@@ -2,6 +2,7 @@ package com.javagda25.library.dao;
 
 import com.javagda25.library.model.Book;
 import com.javagda25.library.model.BookLent;
+import com.javagda25.library.model.Client;
 import com.javagda25.library.util.HibernateUtil;
 import org.hibernate.Session;
 
@@ -10,6 +11,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public class BookLendDao {
     public List<Book> getUnreturnedBookLendsByClient(Long clientId) {
@@ -83,4 +85,18 @@ public class BookLendDao {
             return session.createQuery(query).getResultList();
         }
     }
+    public Optional<Client> getTheMostActiveClient() {
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Client> query = cb.createQuery(Client.class);
+            Root<BookLent> root = query.from(BookLent.class);
+
+            query.select(root.get("client"))
+                    .groupBy(root.get("client"))
+                    .orderBy(cb.desc(cb.count(root.get("book"))));
+
+            return Optional.ofNullable(session.createQuery(query).setMaxResults(1).uniqueResult());
+        }
+    }
+
 }

@@ -54,7 +54,7 @@ public class Main {
                 "* List of Books returned within N hours [lnh]\n" +
                 "* List of Books lended within the last 24 hours [lnd]\n" +
                 "* List of the most borrowed books [lmb]\n" +
-                "* Znajdz najbardziej aktywnego klienta [zna]\n");
+                "* Get the most active Client [mac]\n");
 
         String line;
         do {
@@ -155,8 +155,8 @@ public class Main {
             } else if (line.equalsIgnoreCase("lmb")) {
                 bookLendDao.getlistOfTheMostBorrowedBooks().forEach(System.out::println);
 
-            } else if (line.equalsIgnoreCase("zna")) {
-
+            } else if (line.equalsIgnoreCase("mac")) {
+                System.out.println(bookLendDao.getTheMostActiveClient());
 
             }
         } while (!line.equalsIgnoreCase("quit"));
