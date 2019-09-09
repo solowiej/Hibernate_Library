@@ -162,91 +162,6 @@ public class Main {
         } while (!line.equalsIgnoreCase("quit"));
     }
 
-    private static void returnTheBook(EntityDao dao) {
-        BookLent bookLent = new BookLent();
-
-        System.out.println("Enter Client id:");
-        Long clientId = scanner.nextLong();
-        Optional<Client> optionalClient = dao.getById(Client.class, clientId);
-
-        if (optionalClient.isPresent()) {
-            System.out.println("Borowed Books:");
-            optionalClient.get().getLentsBooks().forEach(System.out::println);
-            System.out.println("Book id:");
-            Long bookLendId = scanner.nextLong();
-
-            Optional<BookLent> optionalBookLent = dao.getById(BookLent.class, bookLendId);
-            if (optionalBookLent.isPresent()) {
-                bookLent.setId(bookLendId);
-                bookLent.setDateLent(optionalBookLent.get().getDateLent());
-                bookLent.setDateReturned(LocalDateTime.now());
-                bookLent.setBook(optionalBookLent.get().getBook());
-                bookLent.setClient(optionalBookLent.get().getClient());
-
-                dao.saveOrUpdate(bookLent);
-            } else {
-                System.err.println("The client with given " + clientId +
-                        " , has no assigned bookLend with id = " + bookLendId);
-            }
-        } else {
-            System.err.println("There is no such Client with id = " + clientId + " in Database.");
-        }
-    }
-
-    private static void lendBook(EntityDao dao) {
-        BookLent bookLent = new BookLent();
-
-        System.out.println("Client id:");
-        Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
-        System.out.println("Book id:");
-        Optional<Book> optionalBook = dao.getById(Book.class, scanner.nextLong());
-
-        if (optionalClient.isPresent() && optionalBook.isPresent()) {
-
-            if (optionalBook.get().getNumberOfAvaibleCopies() > optionalBook.get().getNumberOfBorrowedCopies()) {
-                Client client = optionalClient.get();
-                Book book = optionalBook.get();
-                bookLent.setDateLent(LocalDateTime.now());
-                bookLent.setBook(book);
-                bookLent.setClient(client);
-                dao.saveOrUpdate(bookLent);
-
-            } else {
-                System.err.println("All books are temporarily on loan.");
-            }
-        } else {
-            System.err.println("There is no such element in Database.");
-        }
-    }
-
-    private static void bindAuthorWithBook(EntityDao dao) {
-        System.out.println("Book id:");
-        Long bookId = scanner.nextLong();
-        Optional<Book> optionalBook = dao.getById(Book.class, bookId);
-
-        if (optionalBook.isPresent()) {
-            System.out.println("Author id:");
-            Long authorId = scanner.nextLong();
-
-            Optional<Author> optionalAuthor = dao.getById(Author.class, authorId);
-
-            if (optionalAuthor.isPresent()) {
-
-                Author author = optionalAuthor.get();
-                Book book = optionalBook.get();
-
-                dao.saveOrUpdate(book);
-                author.getBooks().add(book);
-                dao.saveOrUpdate(author);
-
-            } else {
-                System.err.println("There is no such Author with id = " + authorId + " in Database.");
-            }
-        } else {
-            System.err.println("There is no such Book with id = " + bookId + " in Database.");
-        }
-    }
-
     private static void addAuthor(EntityDao dao) {
         Author author = new Author();
 
@@ -384,6 +299,91 @@ public class Main {
                     dao.saveOrUpdate(optionalClient.get());
                 }
             } while (!line.equalsIgnoreCase("q"));
+        }
+    }
+
+    private static void bindAuthorWithBook(EntityDao dao) {
+        System.out.println("Book id:");
+        Long bookId = scanner.nextLong();
+        Optional<Book> optionalBook = dao.getById(Book.class, bookId);
+
+        if (optionalBook.isPresent()) {
+            System.out.println("Author id:");
+            Long authorId = scanner.nextLong();
+
+            Optional<Author> optionalAuthor = dao.getById(Author.class, authorId);
+
+            if (optionalAuthor.isPresent()) {
+
+                Author author = optionalAuthor.get();
+                Book book = optionalBook.get();
+
+                dao.saveOrUpdate(book);
+                author.getBooks().add(book);
+                dao.saveOrUpdate(author);
+
+            } else {
+                System.err.println("There is no such Author with id = " + authorId + " in Database.");
+            }
+        } else {
+            System.err.println("There is no such Book with id = " + bookId + " in Database.");
+        }
+    }
+
+    private static void lendBook(EntityDao dao) {
+        BookLent bookLent = new BookLent();
+
+        System.out.println("Client id:");
+        Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
+        System.out.println("Book id:");
+        Optional<Book> optionalBook = dao.getById(Book.class, scanner.nextLong());
+
+        if (optionalClient.isPresent() && optionalBook.isPresent()) {
+
+            if (optionalBook.get().getNumberOfAvaibleCopies() > optionalBook.get().getNumberOfBorrowedCopies()) {
+                Client client = optionalClient.get();
+                Book book = optionalBook.get();
+                bookLent.setDateLent(LocalDateTime.now());
+                bookLent.setBook(book);
+                bookLent.setClient(client);
+                dao.saveOrUpdate(bookLent);
+
+            } else {
+                System.err.println("All books are temporarily on loan.");
+            }
+        } else {
+            System.err.println("There is no such element in Database.");
+        }
+    }
+
+    private static void returnTheBook(EntityDao dao) {
+        BookLent bookLent = new BookLent();
+
+        System.out.println("Enter Client id:");
+        Long clientId = scanner.nextLong();
+        Optional<Client> optionalClient = dao.getById(Client.class, clientId);
+
+        if (optionalClient.isPresent()) {
+            System.out.println("Borowed Books:");
+            optionalClient.get().getLentsBooks().forEach(System.out::println);
+            System.out.println("Book id:");
+            Long bookLendId = scanner.nextLong();
+
+            Optional<BookLent> optionalBookLent = dao.getById(BookLent.class, bookLendId);
+            if (optionalBookLent.isPresent()) {
+                bookLent.setId(bookLendId);
+                bookLent.setDateLent(optionalBookLent.get().getDateLent());
+                bookLent.setDateReturned(LocalDateTime.now());
+                bookLent.setBook(optionalBookLent.get().getBook());
+                bookLent.setClient(optionalBookLent.get().getClient());
+
+                dao.saveOrUpdate(bookLent);
+            } else {
+                System.err.println("The client with given " + clientId +
+                        " , has no assigned bookLend with id = " + bookLendId);
+            }
+        } else {
+            System.err.println("There is no such Client with id = " + clientId + " in Database.");
         }
     }
 }
