@@ -132,10 +132,7 @@ public class Main {
 
                 Optional<Client> optionalClient = dao.getById(Client.class, clientId);
                 if (optionalClient.isPresent()) {
-                    bookLendDao.getUnreturnedBookLendsByClient(clientId)
-                            .stream()
-                            .map(BookLent::getBook)
-                            .forEach(System.out::println);
+                    bookLendDao.getUnreturnedBookLendsByClient(clientId).forEach(System.out::println);
                 }
 
             } else if (line.equalsIgnoreCase("lav")) {
@@ -145,55 +142,18 @@ public class Main {
                 bookDao.getListofUnavailableBooks().forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lur")) {
-                bookLendDao.getUnreturnedBookLents()
-                        .stream()
-                        .map(BookLent::getBook)
-                        .forEach(System.out::println);
+                bookLendDao.getUnreturnedBookLents().forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lnh")) {
                 System.out.println("Enter the number of hours:");
                 LocalDateTime hours = LocalDateTime.now().minusHours(scanner.nextLong());
-
-                bookLendDao.getListOfBooksReturnedWithinNHours(hours)
-                        .stream()
-                        .map(BookLent::getBook)
-                        .forEach(System.out::println);
+                bookLendDao.getListOfBooksReturnedWithinNHours(hours).forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lnd")) {
-                bookLendDao.getListOfBooksLendedWithinTheLastDay()
-                        .stream()
-                        .map(BookLent::getBook)
-                        .forEach(System.out::println);
+                bookLendDao.getListOfBooksLendedWithinTheLastDay().forEach(System.out::println);
 
             } else if (line.equalsIgnoreCase("lmb")) {
-
                 bookLendDao.getlistOfTheMostBorrowedBooks().forEach(System.out::println);
-
-
-//                         .stream()
-//                         .map(BookLent::getBook)
-//                         .forEach(System.out::println);
-
-
-//                Map<BookLent, Long> bookLentLongMap = dao.getAll(BookLent.class)
-//                        .stream()
-//                        .collect(Collectors.toMap(
-//                                c -> c,
-//                                c -> dao.getAll(BookLent.class)
-//                                        .stream()
-//                                        .map(bookLent -> bookLent.getBook().getId())
-//                                        .count()))
-//                        .entrySet()
-//                        .stream()
-//                        .sorted(Map.Entry.comparingByValue())
-//                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
-//
-//                bookLentLongMap.entrySet().forEach(bookLentLongEntry ->
-//                        System.out.println(bookLentLongEntry.getKey().getBook().getId() +
-//                                " " + bookLentLongEntry.getValue()));
-//
-//
-
 
             } else if (line.equalsIgnoreCase("zna")) {
 
@@ -225,7 +185,8 @@ public class Main {
 
                 dao.saveOrUpdate(bookLent);
             } else {
-                System.err.println("There is no such Book with id = " + bookLendId + " in Database.");
+                System.err.println("The client with given " + clientId +
+                        " , has no assigned bookLend with id = " + bookLendId);
             }
         } else {
             System.err.println("There is no such Client with id = " + clientId + " in Database.");
