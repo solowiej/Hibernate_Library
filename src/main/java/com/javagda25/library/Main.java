@@ -277,7 +277,7 @@ public class Main {
         Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
 
         if (optionalClient.isPresent()) {
-            System.out.println("What do you want to change: [name [n]/ surname [s]/ identity card number [i]/ quit [q]]")
+            System.out.println("What do you want to change: [name [n]/ surname [s]/ identity card number [i]/ quit [q]]");
 
             String line;
             do {
