@@ -71,7 +71,6 @@ public class BookLendDao {
         }
     }
 
-    // przy kompozycji!!
     public List<Book> getlistOfTheMostBorrowedBooks() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();

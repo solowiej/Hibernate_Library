@@ -25,6 +25,7 @@ public class Client implements IBaseEntity {
     private String idNumber;
 
 
+
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @OneToMany(mappedBy = "client", fetch = FetchType.EAGER)

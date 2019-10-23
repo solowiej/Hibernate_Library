@@ -67,7 +67,7 @@ public class EntityDao {
         if (optionalEntity.isPresent()) {
             delete(optionalEntity.get());
         } else {
-            System.err.println("Nie udalo sie znalezc instancji");
+            System.err.println("There is no such element");
         }
 
     }

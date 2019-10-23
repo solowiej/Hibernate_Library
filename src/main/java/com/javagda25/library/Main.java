@@ -52,7 +52,7 @@ public class Main {
                 "* List of unavailable Books [luv]\n" +
                 "* List of unreturned Books [lur]\n" +
                 "* List of Books returned within N hours [lnh]\n" +
-                "* List of Books lended within the last 24 hours [lnd]\n" +
+                "* List of Books borrowed within the last 24 hours [lnd]\n" +
                 "* List of the most borrowed books [lmb]\n" +
                 "* Get the most active Client [mac]\n");
 
@@ -165,11 +165,11 @@ public class Main {
     private static void addAuthor(EntityDao dao) {
         Author author = new Author();
 
-        System.out.println("Podaj imie:");
+        System.out.println("Name:");
         author.setName(scanner.nextLine());
-        System.out.println("Podaj nazwisko:");
+        System.out.println("Surname:");
         author.setSurName(scanner.nextLine());
-        System.out.println("Podaj date urodzenia:");
+        System.out.println("Birth date:");
         author.setDateOfBirth(LocalDate.parse(scanner.nextLine()));
 
         dao.saveOrUpdate(author);
@@ -178,13 +178,13 @@ public class Main {
     private static void addBook(EntityDao dao) {
         Book book = new Book();
 
-        System.out.println("Nazwa ksiazki:");
+        System.out.println("Book name:");
         book.setTitle(scanner.nextLine());
-        System.out.println("Data wydania:");
+        System.out.println("Release date:");
         book.setYearWritten(LocalDate.parse(scanner.nextLine()));
-        System.out.println("Ilosc stron:");
+        System.out.println("Number of pages:");
         book.setNumberOfPages(scanner.nextInt());
-        System.out.println("Dostepnych kopi:");
+        System.out.println("Available copies:");
         book.setNumberOfAvaibleCopies(scanner.nextInt());
 
         dao.saveOrUpdate(book);
@@ -193,42 +193,42 @@ public class Main {
     private static void addClient(EntityDao dao) {
         Client client = new Client();
 
-        System.out.println("Imie:");
+        System.out.println("Name:");
         client.setName(scanner.nextLine());
-        System.out.println("Nazwisko:");
+        System.out.println("Surname:");
         client.setSurName(scanner.nextLine());
-        System.out.println("Nr dowodu osobistego:");
+        System.out.println("Identity Card number:");
         client.setIdNumber(scanner.nextLine());
 
         dao.saveOrUpdate(client);
     }
 
     private static void updateAuthor(EntityDao dao) {
-        System.out.println("Id autora:");
+        System.out.println("Author id:");
 
         Optional<Author> optionalAuthor = dao.getById(Author.class, scanner.nextLong());
 
         if (optionalAuthor.isPresent()) {
-            System.out.println("Co chcesz zmienic: [imie [i]/ nazwisko [n]/ data urodzenia [du] / wyjdz [q]]");
+            System.out.println("What do you want to change: [name [n]/ surname [s]/ birth date [bd] / quit [q]]");
 
             String line;
             do {
                 line = scanner.nextLine();
 
-                if (line.equalsIgnoreCase("i")) {
-                    System.out.println("Podaj imie:");
+                if (line.equalsIgnoreCase("n")) {
+                    System.out.println("Name:");
                     optionalAuthor.get().setName(scanner.nextLine());
                     dao.saveOrUpdate(optionalAuthor.get());
 
 
-                } else if (line.equalsIgnoreCase("n")) {
-                    System.out.println("Podaj nazwisko:");
+                } else if (line.equalsIgnoreCase("s")) {
+                    System.out.println("Surname:");
 
                     optionalAuthor.get().setSurName(scanner.nextLine());
                     dao.saveOrUpdate(optionalAuthor.get());
 
-                } else if (line.equalsIgnoreCase("du")) {
-                    System.out.println("Podaj date urodzenia:");
+                } else if (line.equalsIgnoreCase("bd")) {
+                    System.out.println("Birth date:");
                     optionalAuthor.get().setDateOfBirth(LocalDate.parse(scanner.nextLine()));
                     dao.saveOrUpdate(optionalAuthor.get());
                 }
@@ -238,33 +238,33 @@ public class Main {
     }
 
     private static void updateBook(EntityDao dao) {
-        System.out.println("Id ksiazki:");
+        System.out.println("Book id:");
         Optional<Book> optionalClient = dao.getById(Book.class, scanner.nextLong());
 
         if (optionalClient.isPresent()) {
-            System.out.println("Co chcesz zmienic: [nazwa [n]/ data wydania [d]/ ilosc stron [s] / dostepnych kopii [k] / wyjdz [q]]");
+            System.out.println("What do you want to change: [name [n]/ release date [rd]/ numbers of pages [np] / available copies  [ac] / quit [q]]");
 
             String line;
             do {
                 line = scanner.nextLine();
 
                 if (line.equalsIgnoreCase("n")) {
-                    System.out.println("Nazwa:");
+                    System.out.println("Name:");
                     optionalClient.get().setTitle(scanner.nextLine());
                     dao.saveOrUpdate(optionalClient.get());
 
-                } else if (line.equalsIgnoreCase("d")) {
-                    System.out.println("Data wydania:");
+                } else if (line.equalsIgnoreCase("rd")) {
+                    System.out.println("Release date:");
                     optionalClient.get().setYearWritten(LocalDate.parse(scanner.nextLine()));
                     dao.saveOrUpdate(optionalClient.get());
 
-                } else if (line.equalsIgnoreCase("s")) {
-                    System.out.println("Ilosc stron:");
+                } else if (line.equalsIgnoreCase("np")) {
+                    System.out.println("Numbers of pages:");
                     optionalClient.get().setNumberOfPages(scanner.nextInt());
                     dao.saveOrUpdate(optionalClient.get());
 
-                } else if (line.equalsIgnoreCase("k")) {
-                    System.out.println("Dostepnych kopii:");
+                } else if (line.equalsIgnoreCase("ac")) {
+                    System.out.println("Available copies:");
                     optionalClient.get().setNumberOfAvaibleCopies(scanner.nextInt());
                     dao.saveOrUpdate(optionalClient.get());
                 }
@@ -273,28 +273,28 @@ public class Main {
     }
 
     private static void updateClient(EntityDao dao) {
-        System.out.println("Id klienta:");
+        System.out.println("Client id:");
         Optional<Client> optionalClient = dao.getById(Client.class, scanner.nextLong());
 
         if (optionalClient.isPresent()) {
-            System.out.println("Co chcesz zmienic: [imie [i]/ nazwisko [n]/ nr dowodu osobistego [d] / wyjdz [q]]");
+            System.out.println("What do you want to change: [name [n]/ surname [s]/ identity card number [i]/ quit [q]]")
 
             String line;
             do {
                 line = scanner.nextLine();
 
-                if (line.equalsIgnoreCase("i")) {
-                    System.out.println("Imie:");
+                if (line.equalsIgnoreCase("n")) {
+                    System.out.println("Name:");
                     optionalClient.get().setName(scanner.nextLine());
                     dao.saveOrUpdate(optionalClient.get());
 
-                } else if (line.equalsIgnoreCase("n")) {
-                    System.out.println("Nazwisko:");
+                } else if (line.equalsIgnoreCase("s")) {
+                    System.out.println("Surname:");
                     optionalClient.get().setSurName(scanner.nextLine());
                     dao.saveOrUpdate(optionalClient.get());
 
-                } else if (line.equalsIgnoreCase("d")) {
-                    System.out.println("Nr dowodu osobistego:");
+                } else if (line.equalsIgnoreCase("i")) {
+                    System.out.println("Identity Card Number:");
                     optionalClient.get().setIdNumber(scanner.nextLine());
                     dao.saveOrUpdate(optionalClient.get());
                 }
@@ -364,7 +364,7 @@ public class Main {
         Optional<Client> optionalClient = dao.getById(Client.class, clientId);
 
         if (optionalClient.isPresent()) {
-            System.out.println("Borowed Books:");
+            System.out.println("Borrowed Books:");
             optionalClient.get().getLentsBooks().forEach(System.out::println);
             System.out.println("Book id:");
             Long bookLendId = scanner.nextLong();
