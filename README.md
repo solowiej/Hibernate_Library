@@ -1,4 +1,4 @@
-Library application.
+Library application (Hibernate, SQL).
 
 Capabilities:
 - adding a relation between the book and the author
